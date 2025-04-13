@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Guess the Number Game</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      text-align: center;
+      background: #f4f4f4;
+      padding: 50px;
+    }
+    h1 {
+      color: #4CAF50;
+    }
+    input, button {
+      padding: 10px;
+      font-size: 16px;
+      margin-top: 10px;
+    }
+    .message {
+      margin-top: 20px;
+      font-size: 18px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🎯 Guess the Number!</h1>
+  <p>I'm thinking of a number between <strong>1 and 100</strong>.</p>
+
+  <input type="number" id="guessInput" placeholder="Enter your guess" min="1" max="100"/>
+  <br />
+  <button onclick="checkGuess()">Guess</button>
+
+  <div class="message" id="message"></div>
+  <button id="resetBtn" onclick="resetGame()" style="display: none;">🔄 Play Again</button>
+
+  <script>
+    let numberToGuess = Math.floor(Math.random() * 100) + 1;
+    let attempts = 0;
+
+    function checkGuess() {
+      const input = document.getElementById('guessInput');
+      const message = document.getElementById('message');
+      const resetBtn = document.getElementById('resetBtn');
+      const guess = Number(input.value);
+
+      if (!guess || guess < 1 || guess > 100) {
+        message.innerHTML = "🚫 Please enter a number between 1 and 100.";
+        return;
+      }
+
+      attempts++;
+
+      if (guess < numberToGuess) {
+        message.innerHTML = "📉 Too low! Try again.";
+      } else if (guess > numberToGuess) {
+        message.innerHTML = "📈 Too high! Try again.";
+      } else {
+        message.innerHTML = `🎉 Correct! You guessed it in ${attempts} tries.`;
+        input.disabled = true;
+        resetBtn.style.display = "inline-block";
+      }
+    }
+
+    function resetGame() {
+      numberToGuess = Math.floor(Math.random() * 100) + 1;
+      attempts = 0;
+      document.getElementById('guessInput').value = '';
+      document.getElementById('guessInput').disabled = false;
+      document.getElementById('message').innerHTML = '';
+      document.getElementById('resetBtn').style.display = 'none';
+    }
+  </script>
+
+</body>
+</html>
